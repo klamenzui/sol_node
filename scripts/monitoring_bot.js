@@ -225,7 +225,15 @@ function init() {
 		}
 	}
 	message('out',JSON.stringify(netData));
-	settings.ip = (typeof netData["WLAN"] == 'undefined'? netData["eno1"][0]: netData["WLAN"][0]);
+	if(typeof netData["WLAN"] != 'undefined'){
+		settings.ip = netData["WLAN"][0];
+	}
+	if(typeof netData["eno1"] != 'undefined'){
+		settings.ip = netData["eno1"][0];
+	}
+	if(typeof netData["enp6s0"] != 'undefined'){
+		settings.ip = netData["enp6s0"][0];
+	}
 	settings.bot.options.certificate = settings.bot_certificate;
 	if(settings.solana_key_path){
 		settings.solana_key_path = settings.solana_key_path.trim().replace(/\\/g, '/');
