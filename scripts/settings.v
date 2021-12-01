@@ -1,7 +1,7 @@
 solana public registry =	https://docs.google.com/spreadsheets/d/1pEdQoSxBakwsaHuGgiQVoYcu49WWbZfhOus_H5ZyDL4/edit#gid=0
 telegram token  =			%telegram_token%
 //mb || tds
-solana app =				mb
+solana app =				%solana_app%
 //solana rpc =				https://api.mainnet-beta.solana.com/
 //solana rpc =				localhost
 chat access username =		%chat_access%
