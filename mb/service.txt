@@ -23,6 +23,7 @@ ExecStart=/%user%/.local/share/solana/install/active_release/bin/solana-validato
     --no-untrusted-rpc \
     --rpc-port %rpc_port% \
     --private-rpc \
+	--full-rpc-api \
     --dynamic-port-range 8000-8020 \
     --entrypoint entrypoint.mainnet-beta.solana.com:8001 \
     --entrypoint entrypoint2.mainnet-beta.solana.com:8001 \

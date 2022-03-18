@@ -24,6 +24,7 @@ ExecStart=/%user%/.local/share/solana/install/active_release/bin/solana-validato
 --entrypoint entrypoint2.testnet.solana.com:8001 \
 --entrypoint entrypoint3.testnet.solana.com:8001 \
 --only-known-rpc \
+--full-rpc-api \
 --rpc-port %rpc_port% \
 --dynamic-port-range 8000-8020 \
 --gossip-port 8001 \
