@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "$ver_inst"
+echo "$telegraf_name"
