@@ -1,3 +1,4 @@
 #!/bin/sh
+. /root/vars.sh
 echo "$ver_inst"
 echo "$telegraf_name"
