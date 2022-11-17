@@ -111,7 +111,6 @@ ALL=$(timeout 45 $cli validators  --url $rpcURL 2>&1 --output json | jq -r '.sta
 remoteVersion=$(echo "$ALL" | awk -F "," 'BEGIN {max = 0;ver = 0} {if ($2>max) {max=$2; ver=$1}} END {print ver }' )
 iremoteVersion="${remoteVersion//./}"
 iversion="${remoteVersion//./}"
-
 #if [[ (($remoteVersion <= $version)) ]]; then
 if [ $iremoteVersion \< $iversion ] || [ $iremoteVersion = $iversion ]; then
 	updateVersion=0
