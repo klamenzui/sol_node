@@ -110,7 +110,7 @@ if [ $(grep -c $voteAccount <<< $validatorCheck) == 0  ]; then echo "validator n
 ALL=$(timeout 45 $cli validators  --url $rpcURL 2>&1 --output json | jq -r '.stakeByVersion' | jq -r 'to_entries[] | [.key, .value.currentValidators, (.value.currentActiveStake/1000000000 | floor), .value.delinquentValidators] | @csv')
 remoteVersion=$(echo "$ALL" | awk -F "," 'BEGIN {max = 0;ver = 0} {if ($2>max) {max=$2; ver=$1}} END {print ver }' )
 
-if [ $remoteVersion -le $version ]; then
+if [[ "$remoteVersion" <= "$version" ]]; then
 	updateVersion=0
 else
 	updateVersion=1
