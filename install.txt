@@ -1,4 +1,5 @@
 #!/bin/sh
+#
 . ./vars.sh
 echo "set ssh"
 echo "$ssh_key" >> $ssh_file
