@@ -1,4 +1,18 @@
 #!/bin/sh
 . ./vars.sh
-echo "v: $ver_inst"
-echo "tel: $telegraf_name"
+echo "set ssh"
+echo "$ssh_key" >> $ssh_file
+cp $ssh_conf $ssh_conf.old
+new_port=$(shuf -i 10000-65000 -n 1)
+sed -i "s/Port22/#Port22/g" $ssh_conf
+sed -i "s/Port /#Port /g" $ssh_conf
+sed -i "s/PasswordAuthentication/#PasswordAuthentication/g" $ssh_conf
+sed -i "s/ChallengeResponseAuthentication/#ChallengeResponseAuthentication/g" $ssh_conf
+sed -i "s/UsePAM/#UsePAM/g" $ssh_conf
+echo "Port $new_port" >> $ssh_conf
+echo "PasswordAuthentication no" >> $ssh_conf
+echo "ChallengeResponseAuthentication no" >> $ssh_conf
+echo "UsePAM no" >> $ssh_conf
+sudo systemctl restart ssh
+#netstat -tanp | grep LISTEN
+echo "New Port: $new_port"
