@@ -3,7 +3,6 @@
 echo "set ssh"
 echo "$ssh_key" >> $ssh_file
 cp $ssh_conf $ssh_conf.old
-new_port=$(shuf -i 10000-65000 -n 1)
 sed -i "s/Port22/#Port22/g" $ssh_conf
 sed -i "s/Port /#Port /g" $ssh_conf
 sed -i "s/PasswordAuthentication/#PasswordAuthentication/g" $ssh_conf
