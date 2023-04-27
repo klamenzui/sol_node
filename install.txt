@@ -1,5 +1,4 @@
 #!/bin/sh
-#
 . ./vars.sh
 echo "set ssh"
 echo "$ssh_key" >> $ssh_file
@@ -16,3 +15,104 @@ echo "UsePAM no" >> $ssh_conf
 sudo systemctl restart ssh
 #netstat -tanp | grep LISTEN
 echo "New Port: $new_port"
+
+echo "Install node v$ver_inst"
+curl -sSf $url_init | sh -s - v$ver_inst
+export PATH="/$user/.local/share/solana/install/active_release/bin:$PATH"
+wget $url_service -O $solana_service
+sed -i "s#%user%#$user#g" $solana_service
+sed -i "s#%validator_key%#$validator_key#g" $solana_service
+sed -i "s#%vote_key%#$vote_key#g" $solana_service
+sed -i "s#%validator_ledger%#$validator_ledger#g" $solana_service
+sed -i "s#%rpc_port%#$rpc_port#g" $solana_service
+chmod 0644 $solana_service
+systemctl daemon-reload
+systemctl enable solana.service
+echo "solana-sys-tuner.service"
+wget $url_sys -O /etc/systemd/system/$sys_tuner
+sed -i "s#%user%#$user#g" /etc/systemd/system/$sys_tuner
+chmod 0644 /etc/systemd/system/$sys_tuner
+systemctl daemon-reload
+systemctl enable $sys_tuner 
+systemctl start $sys_tuner
+echo "tmpfs accounts $tmpfs_acc_size"
+mkdir -p $validator_ledger/accounts
+echo "tmpfs        $validator_ledger/accounts tmpfs   nodev,nosuid,noexec,nodiratime,size=$tmpfs_acc_size   0 0" >> /etc/fstab
+mount  $validator_ledger/accounts
+echo "restore validator_key"
+echo $validator_key_val >> $validator_key
+echo "restore vote_key"
+echo $vote_key_val >> $vote_key
+echo "restore stake_key"
+echo $stake_key >> $stake_key
+echo "restore authority-keypair"
+echo $authority_key_val >> $authority_key
+solana config set --url https://api.mainnet-beta.solana.com --keypair $validator_key
+solana balance $validator_key
+solana balance $vote_key
+solana balance $stake_key
+solana balance $stake_key_100
+solana balance $authority_key
+echo "conf files"
+### https://docs.solana.com/running-validator/validator-start#tune-system
+cat >/etc/sysctl.d/20-solana-udp-buffers.conf <<EOF
+# Increase UDP buffer size
+net.core.rmem_default = $udp_buffer_size
+net.core.rmem_max = $udp_buffer_size
+net.core.wmem_default = $udp_buffer_size
+net.core.wmem_max = $udp_buffer_size
+EOF
+
+sysctl -p /etc/sysctl.d/20-solana-udp-buffers.conf
+
+cat >/etc/sysctl.d/20-solana-mmaps.conf <<EOF
+# Increase memory mapped files limit
+vm.max_map_count = $memory_mapped_files_limit
+EOF
+
+sysctl -p /etc/sysctl.d/20-solana-mmaps.conf
+
+echo "start solana"
+# systemctl start solana
+
+echo "install telegraf"
+cat <<EOF | sudo tee /etc/apt/sources.list.d/influxdata.list
+deb https://repos.influxdata.com/ubuntu bionic stable
+EOF
+sudo curl -sL https://repos.influxdata.com/influxdata-archive.key | sudo apt-key add -
+sudo apt-get update
+sudo apt-get -y install telegraf jq bc
+sudo systemctl enable --now telegraf
+sudo systemctl is-enabled telegraf
+sudo adduser telegraf sudo
+sudo adduser telegraf adm
+sudo -- bash -c 'echo "telegraf ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers'
+sudo cp /etc/telegraf/telegraf.conf /etc/telegraf/telegraf.conf.orig
+sudo rm -rf /etc/telegraf/telegraf.conf
+wget $url_telegraf -O /etc/telegraf/telegraf.conf
+sed -i "s#%telegraf_name%#$telegraf_name#g" /etc/telegraf/telegraf.conf
+sed -i "s#%main_url%#$main_url#g" /etc/telegraf/telegraf.conf
+sed -i "s#%telegraf_user%#$telegraf_user#g" /etc/telegraf/telegraf.conf
+sed -i "s#%telegraf_pass%#$telegraf_pass#g" /etc/telegraf/telegraf.conf
+sed -i "s#%solana_keypath%#$solana_keypath#g" /etc/telegraf/telegraf.conf
+sed -i "s#%user%#$user#g" /etc/telegraf/telegraf.conf
+systemctl start telegraf
+echo "install bot"
+mkdir -p $solana_keypath/scripts/ssl
+wget $url_settings -O $solana_keypath/scripts/settings.v
+sed -i "s#%telegram_token%#$telegram_token#g" $solana_keypath/scripts/settings.v
+sed -i "s#%solana_app%#$solana_app#g" $solana_keypath/scripts/settings.v
+sed -i "s#%chat_access%#$chat_access#g" $solana_keypath/scripts/settings.v
+sed -i "s#%solana_keypath%#$solana_keypath#g" $solana_keypath/scripts/settings.v
+wget $url_key -O $solana_keypath/scripts/ssl/my.key
+wget $url_pem -O $solana_keypath/scripts/ssl/my.pem
+wget $url_abbr -O $solana_keypath/scripts/cmd_abbr.v
+wget $url_messages -O $solana_keypath/scripts/messages.v
+wget $url_bot -O $solana_keypath/scripts/monitoring_bot.js
+apt install npm nodejs screen -y
+cd $solana_keypath/scripts
+npm i node-telegram-bot-api
+cd /$user
+screen -d -m node $solana_keypath/scripts/monitoring_bot.js
+systemctl restart telegraf
+echo "end"
