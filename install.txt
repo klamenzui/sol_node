@@ -39,14 +39,6 @@ echo "tmpfs accounts $tmpfs_acc_size"
 mkdir -p $validator_ledger/accounts
 echo "tmpfs        $validator_ledger/accounts tmpfs   nodev,nosuid,noexec,nodiratime,size=$tmpfs_acc_size   0 0" >> /etc/fstab
 mount  $validator_ledger/accounts
-echo "restore validator_key"
-echo $validator_key_val >> $validator_key
-echo "restore vote_key"
-echo $vote_key_val >> $vote_key
-echo "restore stake_key"
-echo $stake_key >> $stake_key
-echo "restore authority-keypair"
-echo $authority_key_val >> $authority_key
 solana config set --url https://api.mainnet-beta.solana.com --keypair $validator_key
 solana balance $validator_key
 solana balance $vote_key
