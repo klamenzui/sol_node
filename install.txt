@@ -40,8 +40,7 @@ mkdir -p $validator_ledger/accounts
 echo "tmpfs        $validator_ledger/accounts tmpfs   nodev,nosuid,noexec,nodiratime,size=$tmpfs_acc_size   0 0" >> /etc/fstab
 mount  $validator_ledger/accounts
 
-# solana config set --url https://api.mainnet-beta.solana.com --keypair $validator_key
-solana config set --url https://api.mainnet-beta.solana.com
+solana config set --url https://api.mainnet-beta.solana.com --keypair $validator_key
 solana balance $validator_key
 solana balance $vote_key
 solana balance $stake_key
