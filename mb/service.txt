@@ -22,6 +22,7 @@ ExecStart=/%user%/.local/share/solana/install/active_release/bin/solana-validato
     --trusted-validator CakcnaRDHka2gXyfbEd2d3xsvkJkqsLw2akB3zsN1D2S \
     --no-untrusted-rpc \
     --rpc-port %rpc_port% \
+    --rpc-bind-address 127.0.0.1 \
     --private-rpc \
     --full-rpc-api \
     --dynamic-port-range 8000-8020 \
@@ -30,14 +31,13 @@ ExecStart=/%user%/.local/share/solana/install/active_release/bin/solana-validato
     --entrypoint entrypoint3.mainnet-beta.solana.com:8001 \
     --entrypoint entrypoint4.mainnet-beta.solana.com:8001 \
     --entrypoint entrypoint5.mainnet-beta.solana.com:8001 \
-    --expected-genesis-hash 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d \
     --wal-recovery-mode skip_any_corrupted_record \
     --limit-ledger-size \
     --no-poh-speed-test \
-    --no-check-vote-account \
     --maximum-local-snapshot-age 500 \
     --snapshot-compression none \
     --snapshot-interval-slots 500 \
+#--no-snapshot-fetch \
     --log -
 [Install]
 WantedBy=multi-user.target
