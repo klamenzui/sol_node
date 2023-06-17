@@ -1,20 +1,24 @@
 #!/bin/sh
 . ./vars.sh
-echo "set ssh"
-echo "$ssh_key" >> $ssh_file
-cp $ssh_conf $ssh_conf.old
-sed -i "s/Port22/#Port22/g" $ssh_conf
-sed -i "s/Port /#Port /g" $ssh_conf
-sed -i "s/PasswordAuthentication/#PasswordAuthentication/g" $ssh_conf
-sed -i "s/ChallengeResponseAuthentication/#ChallengeResponseAuthentication/g" $ssh_conf
-sed -i "s/UsePAM/#UsePAM/g" $ssh_conf
-echo "Port $new_port" >> $ssh_conf
-echo "PasswordAuthentication no" >> $ssh_conf
-echo "ChallengeResponseAuthentication no" >> $ssh_conf
-echo "UsePAM no" >> $ssh_conf
-sudo systemctl restart ssh
-#netstat -tanp | grep LISTEN
-echo "New Port: $new_port"
+if [ -n "$ssh_key" ]; then
+	echo "set ssh"
+	echo "$ssh_key" >> $ssh_file
+	cp $ssh_conf $ssh_conf.old
+	sed -i "s/Port22/#Port22/g" $ssh_conf
+	sed -i "s/Port /#Port /g" $ssh_conf
+	sed -i "s/PasswordAuthentication/#PasswordAuthentication/g" $ssh_conf
+	sed -i "s/ChallengeResponseAuthentication/#ChallengeResponseAuthentication/g" $ssh_conf
+	sed -i "s/UsePAM/#UsePAM/g" $ssh_conf
+	echo "Port $new_port" >> $ssh_conf
+	echo "PasswordAuthentication no" >> $ssh_conf
+	echo "ChallengeResponseAuthentication no" >> $ssh_conf
+	echo "UsePAM no" >> $ssh_conf
+	sudo systemctl restart ssh
+	#netstat -tanp | grep LISTEN
+	echo "New Port: $new_port"
+else 
+	echo "ssh key is not set";
+fi 
 
 echo "Install node v$ver_inst"
 curl -sSf $url_init | sh -s - v$ver_inst
@@ -40,20 +44,24 @@ mkdir -p $validator_ledger/accounts
 echo "tmpfs        $validator_ledger/accounts tmpfs   nodev,nosuid,noexec,nodiratime,size=$tmpfs_acc_size   0 0" >> /etc/fstab
 mount  $validator_ledger/accounts
 
-echo "swapfile $swapfile_size"
-dd if=/dev/zero of=$swapfile_path/swapfile bs=1G count=$swapfile_size
-chmod 600 $swapfile_path/swapfile
-mkswap $swapfile_path/swapfile
-swapon $swapfile_path/swapfile
-sed -i '/swap/s/^/#/' /etc/fstab
-echo "$swapfile_path/swapfile none swap sw 0 0" >> /etc/fstab
+if [ -n "$swapfile_size" ]; then
+	echo "swapfile $swapfile_size"
+	dd if=/dev/zero of=$swapfile_path/swapfile bs=1G count=$swapfile_size
+	chmod 600 $swapfile_path/swapfile
+	mkswap $swapfile_path/swapfile
+	swapon $swapfile_path/swapfile
+	sed -i '/swap/s/^/#/' /etc/fstab
+	echo "$swapfile_path/swapfile none swap sw 0 0" >> /etc/fstab
+else 
+	echo "swapfile_size is not set";
+fi
 
 echo "ramdisk $ramdisk_size"
 echo "tmpfs /mnt/ramdisk tmpfs nodev,nosuid,noexec,nodiratime,size=$ramdisk_size 0 0" >> /etc/fstab
 mkdir -p /mnt/ramdisk
 mount /mnt/ramdisk
 
-solana config set --url https://api.mainnet-beta.solana.com --keypair $validator_key
+solana config set --url $url_api --keypair $validator_key
 solana balance $validator_key
 solana balance $vote_key
 #solana balance $stake_key
