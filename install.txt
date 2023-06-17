@@ -41,12 +41,12 @@ echo "tmpfs        $validator_ledger/accounts tmpfs   nodev,nosuid,noexec,nodira
 mount  $validator_ledger/accounts
 
 echo "swapfile $swapfile_size"
-dd if=/dev/zero of=/$user/swapfile bs=1G count=$swapfile_size
-chmod 600 /$user/swapfile
-mkswap /$user/swapfile
-swapon /$user/swapfile
+dd if=/dev/zero of=$swapfile_path/swapfile bs=1G count=$swapfile_size
+chmod 600 $swapfile_path/swapfile
+mkswap $swapfile_path/swapfile
+swapon $swapfile_path/swapfile
 sed -i '/swap/s/^/#/' /etc/fstab
-echo "/$user/swapfile none swap sw 0 0" >> /etc/fstab
+echo "$swapfile_path/swapfile none swap sw 0 0" >> /etc/fstab
 
 echo "ramdisk $ramdisk_size"
 echo "tmpfs /mnt/ramdisk tmpfs nodev,nosuid,noexec,nodiratime,size=$ramdisk_size 0 0" >> /etc/fstab
