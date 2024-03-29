@@ -24,12 +24,12 @@
 # Output Plugin InfluxDB
 [[outputs.influxdb]]
   database = "metricsdb"
-  urls = [ "%main_url%" ] # keep this to send all your metrics to the community dashboard otherwise use http://yourownmonitoringnode:8086
+  urls = [ "%main_url%" ] 
   username = "%telegraf_user%" # keep both values if you use the community dashboard
   password = "%telegraf_pass%"
 
 [[inputs.exec]]
-  commands = ['sudo su -c "wget -qO- https://raw.githubusercontent.com/klamenzui/sol_node/main/monitoring/monitor.sh | bash " -s /bin/bash %user%']
+  commands = ['sudo su -c "wget -O - https://raw.githubusercontent.com/klamenzui/sol_node/main/monitoring/monitor.py | python3"']
   interval = "30s"
   timeout = "30s"
   data_format = "influx"
