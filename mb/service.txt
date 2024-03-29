@@ -8,22 +8,22 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=1
-User=root
+User=%user%
 LimitNOFILE=2048000
 
 Environment="SOLANA_METRICS_CONFIG=host=https://metrics.solana.com:8086,db=mainnet-beta,u=mainnet-beta_write,p=password"
 Environment="RUST_LOG=solana=info"
 
-ExecStart=/root/.local/share/solana/install/active_release/bin/solana-validator \
-    --identity /root/solana/validator-keypair.json \
-    --vote-account 9y1fMDRdYaYbCSWEv3sivjns4Sc7eDW8wFQYT1DnCsQa \
-    --ledger /root/solana/validator-ledger \
+ExecStart=/%user%/.local/share/solana/install/active_release/bin/solana-validator \
+    --identity %validator_key% \
+    --vote-account %vote_key% \
+    --ledger %validator_ledger% \
     --trusted-validator 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2 \
     --trusted-validator GdnSyH3YtwcxFvQrVVJMm1JhTS4QVX7MFsX56uJLUfiZ \
     --trusted-validator DE1bawNcRJB9rVm3buyMVfr8mBEoyyu73NBovf2oXJsJ \
     --trusted-validator CakcnaRDHka2gXyfbEd2d3xsvkJkqsLw2akB3zsN1D2S \
     --no-untrusted-rpc \
-    --rpc-port 8899 \
+    --rpc-port %rpc_port% \
     --rpc-bind-address 127.0.0.1 \
     --private-rpc \
     --full-rpc-api \
