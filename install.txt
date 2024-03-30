@@ -107,8 +107,7 @@ wget $url_telegraf -O /etc/telegraf/telegraf.conf
 sed -i "s#%telegraf_name%#$telegraf_name#g" /etc/telegraf/telegraf.conf
 sed -i "s#%main_url%#$main_url#g" /etc/telegraf/telegraf.conf
 sed -i "s#%telegraf_user%#$telegraf_user#g" /etc/telegraf/telegraf.conf
-# sed -i "s#%telegraf_pass%#$telegraf_pass#g" /etc/telegraf/telegraf.conf
-envsubst < /etc/telegraf/telegraf.conf > /tmp/telegraf.conf.tmp && mv /tmp/telegraf.conf.tmp /etc/telegraf/telegraf.conf
+sed -i "s#%telegraf_pass%#$telegraf_pass#g" /etc/telegraf/telegraf.conf
 sed -i "s#%solana_keypath%#$solana_keypath#g" /etc/telegraf/telegraf.conf
 sed -i "s#%user%#$user#g" /etc/telegraf/telegraf.conf
 systemctl start telegraf
