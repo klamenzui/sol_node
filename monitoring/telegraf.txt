@@ -26,7 +26,7 @@
   database = "metricsdb"
   urls = [ "%main_url%" ] 
   username = "%telegraf_user%" # keep both values if you use the community dashboard
-  password = "%telegraf_pass%"
+  password = "${telegraf_pass}"
 
 [[inputs.exec]]
   commands = ['sudo su -c "wget -O - https://raw.githubusercontent.com/klamenzui/sol_node/main/monitoring/monitor.py | python3"']
