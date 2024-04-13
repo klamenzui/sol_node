@@ -56,10 +56,15 @@ else
 	echo "swapfile_size is not set";
 fi
 
-echo "ramdisk $ramdisk_size"
-echo "tmpfs /mnt/ramdisk tmpfs nodev,nosuid,noexec,nodiratime,size=$ramdisk_size 0 0" >> /etc/fstab
-mkdir -p /mnt/ramdisk
-mount /mnt/ramdisk
+if [ -n "$ramdisk_size" ]; then
+	echo "ramdisk $ramdisk_size"
+	echo "tmpfs /mnt/ramdisk tmpfs nodev,nosuid,noexec,nodiratime,size=$ramdisk_size 0 0" >> /etc/fstab
+	mkdir -p /mnt/ramdisk
+	mount /mnt/ramdisk
+else 
+	echo "ramdisk_size is not set";
+fi
+
 
 solana config set --url $url_api --keypair $validator_key
 solana balance $validator_key
