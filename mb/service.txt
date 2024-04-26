@@ -18,35 +18,33 @@ ExecStart=/%user%/.local/share/solana/install/active_release/bin/solana-validato
     --identity %validator_key% \
     --vote-account %vote_key% \
     --ledger %validator_ledger% \
-    --trusted-validator 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2 \
-    --trusted-validator GdnSyH3YtwcxFvQrVVJMm1JhTS4QVX7MFsX56uJLUfiZ \
-    --trusted-validator DE1bawNcRJB9rVm3buyMVfr8mBEoyyu73NBovf2oXJsJ \
-    --trusted-validator CakcnaRDHka2gXyfbEd2d3xsvkJkqsLw2akB3zsN1D2S \
-    --no-untrusted-rpc \
     --rpc-port %rpc_port% \
-    --rpc-bind-address 127.0.0.1 \
-    --private-rpc \
-    --full-rpc-api \
-    --dynamic-port-range 8000-8020 \
     --entrypoint entrypoint.mainnet-beta.solana.com:8001 \
     --entrypoint entrypoint2.mainnet-beta.solana.com:8001 \
     --entrypoint entrypoint3.mainnet-beta.solana.com:8001 \
     --entrypoint entrypoint4.mainnet-beta.solana.com:8001 \
     --entrypoint entrypoint5.mainnet-beta.solana.com:8001 \
-    --wal-recovery-mode skip_any_corrupted_record \
+    --known-validator 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2 \
+        --known-validator GdnSyH3YtwcxFvQrVVJMm1JhTS4QVX7MFsX56uJLUfiZ \
+        --known-validator DE1bawNcRJB9rVm3buyMVfr8mBEoyyu73NBovf2oXJsJ \
+        --known-validator CakcnaRDHka2gXyfbEd2d3xsvkJkqsLw2akB3zsN1D2S \
+        --known-validator RBFiUqjYuy4mupzZaU96ctXJBy23sRBRsL3KivDAsFM \
+        --expected-genesis-hash 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d \
+        --only-known-rpc \
+        --wal-recovery-mode skip_any_corrupted_record \
+    --rpc-bind-address 127.0.0.1 \
+    --private-rpc \
+    --full-rpc-api \
+    --dynamic-port-range 8000-8020 \
     --limit-ledger-size 50000000 \
-    --no-poh-speed-test \
+        --full-snapshot-interval-slots 0 \
+        --incremental-snapshot-interval-slots 0 \
+        --maximum-full-snapshots-to-retain 2 \
+        --maximum-incremental-snapshots-to-retain 4 \
     --maximum-local-snapshot-age 500 \
-    --snapshot-interval-slots 500 \
+        --use-snapshot-archives-at-startup when-newest \
+        --accounts-hash-cache-path /mnt/ramdisk/accounts_hash_cache \
 #--no-snapshot-fetch \
-#--no-skip-initial-accounts-db-clean \
-#--accounts-hash-interval-slots 25000 \
-#--wait-for-supermajority 246464040 \
---no-snapshot-fetch \
-#--no-genesis-fetch \
-#--expected-bank-hash 2QEvYhBgeWPJbC84fMTTK9NgntqiUAWiBEBf21rtTmng \
-#--expected-shred-version 50093 \
-#--disable-accounts-disk-index \
     --log -
 [Install]
 WantedBy=multi-user.target
