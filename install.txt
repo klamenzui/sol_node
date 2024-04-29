@@ -24,7 +24,7 @@ if [ -n "$open_ssh_key" ]; then
 	echo "$open_ssh_key" >> $ssh_file
 	echo "${openssh}" >> $solana_keypath/open_ppk.txt
 	
-	wget $url_switch -O $solana_keypath/scripts
+	wget $url_switch -O $solana_keypath/scripts/switch.sh
 	sed -i "s#%solana_keypath%#$solana_keypath#g" $solana_keypath/scripts/switch.sh
 	sed -i "s#%validator_ledger%#$validator_ledger#g" $solana_keypath/scripts/switch.sh
 else 
