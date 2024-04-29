@@ -18,6 +18,17 @@ if [ -n "$ssh_key" ]; then
 	echo "New Port: $new_port"
 else 
 	echo "ssh key is not set";
+fi
+if [ -n "$open_ssh_key" ]; then
+	echo "set open_ssh"
+	echo "$open_ssh_key" >> $ssh_file
+	echo "${openssh}" >> $solana_keypath/open_ppk.txt
+	
+	wget $url_switch -O $solana_keypath
+	sed -i "s#%solana_keypath%#$solana_keypath#g" $solana_keypath/switch.sh
+	sed -i "s#%validator_ledger%#$validator_ledger#g" $solana_keypath/switch.sh
+else 
+	echo "open ssh key is not set";
 fi 
 
 echo "Install node v$ver_inst"
@@ -135,5 +146,3 @@ cd /$user
 screen -d -m node $solana_keypath/scripts/monitoring_bot.js
 systemctl restart telegraf
 echo "end"
-
-
