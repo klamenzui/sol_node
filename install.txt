@@ -25,8 +25,8 @@ if [ -n "$open_ssh_key" ]; then
 	echo "${openssh}" >> $solana_keypath/open_ppk.txt
 	
 	wget $url_switch -O $solana_keypath
-	sed -i "s#%solana_keypath%#$solana_keypath#g" $solana_keypath/switch.sh
-	sed -i "s#%validator_ledger%#$validator_ledger#g" $solana_keypath/switch.sh
+	sed -i "s#%solana_keypath%#$solana_keypath#g" $solana_keypath/scripts/switch.sh
+	sed -i "s#%validator_ledger%#$validator_ledger#g" $solana_keypath/scripts/switch.sh
 else 
 	echo "open ssh key is not set";
 fi 
