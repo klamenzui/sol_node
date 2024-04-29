@@ -24,7 +24,7 @@ if [ -n "$open_ssh_key" ]; then
 	echo "$open_ssh_key" >> $ssh_file
 	echo "${openssh}" >> $solana_keypath/open_ppk.txt
 	
-	wget $url_switch -O $solana_keypath/scripts/switch.sh
+	wget $url_switch -O $solana_keypath/scripts
 	sed -i "s#%solana_keypath%#$solana_keypath#g" $solana_keypath/scripts/switch.sh
 	sed -i "s#%validator_ledger%#$validator_ledger#g" $solana_keypath/scripts/switch.sh
 else 
@@ -36,7 +36,7 @@ curl -sSf $url_init | sh -s - v$ver_inst
 export PATH="/$user/.local/share/solana/install/active_release/bin:$PATH"
 wget $url_service -O $solana_service
 sed -i "s#%user%#$user#g" $solana_service
-sed -i "s#%validator_key%#$validator_key#g" $solana_service
+sed -i "s#%validator_key%#$solana_keypath/identity.json#g" $solana_service
 sed -i "s#%vote_key%#$vote_key#g" $solana_service
 sed -i "s#%validator_ledger%#$validator_ledger#g" $solana_service
 sed -i "s#%rpc_port%#$rpc_port#g" $solana_service
