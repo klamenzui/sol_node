@@ -102,7 +102,7 @@ def get_rpc_url(cli, rpc_url = None):
     # Detect RPC URL
     if not rpc_url:
         try:
-            rpc_port = re.search(r'--rpc-port\s+(\d+)', run_command('ps aux | grep solana-validator')).group(1)
+            rpc_port = re.search(r'--rpc-port\s+(\d+)', run_command('ps aux | grep agave-validator')).group(1)
             rpc_url = f'http://127.0.0.1:{rpc_port}'
         except:
             rpc_url=run_command("solana config get | grep 'RPC URL' | awk '{print $3}'")
