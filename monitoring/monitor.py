@@ -64,20 +64,6 @@ def get_identity_pubkey(cli_path, rpc_url):
         log('error', 'get_identity_pubkey: '+str(e))
         return None
 
-def get_vote_account(cli_path, rpc_url, identity_pubkey):
-    try:
-        """Ruft das Vote-Account des Validators ab."""
-        command = f"{cli_path} validators --url {rpc_url} --output json"
-        validators_output = run_command(command)
-        validators_data = json.loads(validators_output)
-        for validator in validators_data['validators']:
-            if validator['identityPubkey'] == identity_pubkey:
-                return validator['voteAccountPubkey']
-    except Exception as e:
-        #print(e)
-        log('error', 'get_vote_account: '+str(e))
-        return None
-
 def get_cli(bin_dir = ""):
     # Detect Solana binary directory
     if bin_dir:
@@ -111,7 +97,7 @@ def get_rpc_url(cli, rpc_url = None):
 # Beispiel für das Abfragen des Validator-Status
 def get_validators_data(cli_path, rpc):
     try:
-        return json.loads(run_command(f"{cli_path} validators --url {rpc} --output json"))
+        return json.loads(run_command(f"{cli_path} validators --output json"))
     except Exception as e:
         #print(e)
         log('error', 'get_validators_data: '+str(e))
@@ -131,7 +117,7 @@ def get_solana_price():
 def get_block_production(cli_path, rpc_url, identity_pubkey):
     try:
         """Ruft das Vote-Account des Validators ab."""
-        command = f"{cli_path} block-production --url {rpc_url} --output json-compact 2>&- | grep -v Note:"
+        command = f"{cli_path} block-production --output json-compact 2>&- | grep -v Note:"
         block_production = json.loads(run_command(command))
         for validator in block_production['leaders']:
             if validator['identityPubkey'] == identity_pubkey:
@@ -344,7 +330,7 @@ if __name__ == "__main__":
                 log('error', 'block_production is empty')
 
         log('openFiles', run_command("cat /proc/sys/fs/file-nr | awk '{ print $1 }'"))
-        log('nodes', run_command(f'{cli} gossip --url {rpc} | grep -Po "Nodes:\s+\K[0-9]+"'))
+        log('nodes', run_command(f'{cli} gossip | grep -Po "Nodes:\s+\K[0-9]+"'))
         if err_str != '':
             err_str = err_str.replace('"', '\\"').replace('\n', ';').replace('\\', '/')
             log_str = f'{log_str},errors="{err_str}"'
