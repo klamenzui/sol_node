@@ -4,11 +4,12 @@ import re
 import subprocess
 import requests
 from datetime import datetime, timezone
+import getpass
 
 
-
+home = '/' + getpass.getuser() if getpass.getuser() == 'root' else '/home/' + getpass.getuser()
 # Configuration variables
-config_dir = os.path.expanduser('~/.config/solana')
+config_dir = os.path.expanduser( home + '/.config/solana')
 additional_info = 'on'
 bin_dir = ''
 rpc_url = ''
