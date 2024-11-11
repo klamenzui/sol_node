@@ -341,4 +341,4 @@ if __name__ == "__main__":
         log_str = f'{log_str} ' + str(int(current_dt.timestamp() * 1e9))
         print(f'{log_str}{stake_accounts}')
     except Exception as e:
-        print(e)
+        print(e, file=sys.stderr)
