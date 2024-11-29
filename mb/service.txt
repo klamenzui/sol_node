@@ -14,7 +14,7 @@ LimitNOFILE=2048000
 Environment="SOLANA_METRICS_CONFIG=host=https://metrics.solana.com:8086,db=mainnet-beta,u=mainnet-beta_write,p=password"
 Environment="RUST_LOG=solana=info"
 
-ExecStart=/%user%/.local/share/solana/install/active_release/bin/solana-validator \
+ExecStart=/%user%/.local/share/solana/install/active_release/bin/agave-validator \
     --identity %validator_key% \
     --vote-account %vote_key% \
     --ledger %validator_ledger% \
