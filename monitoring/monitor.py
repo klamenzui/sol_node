@@ -8,7 +8,8 @@ import sys
 import yaml
 
 # Configuration variables
-home = '/home/solv'
+# home = '/home/solv'
+home = '/root'
 config_dir = os.path.expanduser(home + '/.config/solana')
 additional_info = 'on'
 bin_dir = ''
