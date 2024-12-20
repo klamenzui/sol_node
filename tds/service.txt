@@ -29,7 +29,6 @@ ExecStart=/%user%/.local/share/solana/install/active_release/bin/solana-validato
 --dynamic-port-range 8000-8020 \
 --gossip-port 8001 \
 --limit-ledger-size 50000000 \
---accounts-db-caching-enabled \
 --log - 
 [Install]
 WantedBy=multi-user.target
