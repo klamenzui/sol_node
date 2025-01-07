@@ -78,6 +78,7 @@ else
 fi
 
 
+ln -s $validator_key $solana_keypath/identity.json
 solana config set --url $url_api --keypair $validator_key
 solana balance $validator_key
 solana balance $vote_key
