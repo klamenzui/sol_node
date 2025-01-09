@@ -285,7 +285,7 @@ if __name__ == "__main__":
                 stake_accounts = ''
             else:
                 stake_accounts = f'\n{stake_accounts}'
-            log('validatorCreditsCurrent', run_command(f'{cli} vote-account {vote_account} | grep credits/slots | cut -d ":" -f 2 | cut -d "/" -f 1 | ' + "awk 'NR==1{print $1}'"))
+            log('validatorCreditsCurrent', run_command(f'{cli} vote-account {vote_account} | grep credits/max | cut -d ":" -f 2 | cut -d "/" -f 1 | ' + "awk 'NR==1{print $1}'"))
             log('validatorVoteBalance', run_command(f'{cli} balance {vote_account} | grep -o "[0-9.]*"'))
             log('epoch', epoch_info['epoch'])
             #log('pctEpochElapsed', "{:.2f}".format(100 * epoch_info['slotIndex'] / epoch_info['slotsInEpoch']))
