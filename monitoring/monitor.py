@@ -131,7 +131,11 @@ def get_block_production(cli_path, rpc_url, identity_pubkey):
     
 # Umwandlung der Versionsstrings in vergleichbare Zahlen
 def version_to_int(version):
-    return int(version.replace(".", "")) if version else 0
+    try:
+        return int(version.replace(".", "")) if version else 0
+    except ValueError:
+        log('error', f"check_no_voting: Unable to convert result '{version}' to integer")
+        return 0  # Default to assuming --no-voting is not active
     
 def get_most_common_version(data):
     # Verarbeiten der Daten, um stakeByVersion zu extrahieren
