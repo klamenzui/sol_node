@@ -48,7 +48,7 @@ def check_no_voting():
     """Prüft, ob der Validator mit der Option --no-voting läuft."""
     command = "ps aux | grep agave-validator | grep -c -- '--no-voting'"
     result = run_command(command)
-     try:
+    try:
         return int(result) == 0
     except ValueError:
         log('error', f"check_no_voting: Unable to convert result '{result}' to integer")
