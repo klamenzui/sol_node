@@ -48,7 +48,11 @@ def check_no_voting():
     """Prüft, ob der Validator mit der Option --no-voting läuft."""
     command = "ps aux | grep agave-validator | grep -c -- '--no-voting'"
     result = run_command(command)
-    return int(result) == 0
+     try:
+        return int(result) == 0
+    except ValueError:
+        log('error', f"check_no_voting: Unable to convert result '{result}' to integer")
+        return False  # Default to assuming --no-voting is not active
 
 def get_identity_pubkey(cli_path):
     try:
