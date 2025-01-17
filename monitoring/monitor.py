@@ -166,6 +166,8 @@ def get_epoch_info(cli_path, rpc_url):
     
     
 def get_stake_accounts(text):
+    if text:
+        return None
     try:
         # Split the text into sections for each stake account
         sections = text.strip().split("\n\n")
