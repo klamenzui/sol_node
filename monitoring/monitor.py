@@ -166,7 +166,7 @@ def get_epoch_info(cli_path, rpc_url):
     
     
 def get_stake_accounts(text):
-    if text:
+    if not text:
         return None
     try:
         # Split the text into sections for each stake account
