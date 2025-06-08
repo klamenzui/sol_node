@@ -37,7 +37,8 @@ echo "Install node v$ver_inst"
 # export PATH="/$user/.local/share/solana/install/active_release/bin:$PATH"
 wget $url_service -O $solana_service
 sed -i "s#%user%#$user#g" $solana_service
-sed -i "s#%validator_key%#$solana_keypath/identity.json#g" $solana_service
+sed -i "s#%identity_ln%#$solana_keypath/identity.json#g" $solana_service
+sed -i "s#%validator_key%#$validator_key#g" $solana_service
 sed -i "s#%vote_key%#$vote_key#g" $solana_service
 sed -i "s#%validator_ledger%#$validator_ledger#g" $solana_service
 sed -i "s#%rpc_port%#$rpc_port#g" $solana_service
