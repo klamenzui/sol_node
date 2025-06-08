@@ -33,8 +33,8 @@ fi
 
 echo "Install node v$ver_inst"
 # curl -sSf $url_init | sh -s - v$ver_inst
-sh -c "$(curl -sSfL https://release.anza.xyz/v$ver_inst/install)"
-export PATH="/$user/.local/share/solana/install/active_release/bin:$PATH"
+# sh -c "$(curl -sSfL https://release.anza.xyz/v$ver_inst/install)"
+# export PATH="/$user/.local/share/solana/install/active_release/bin:$PATH"
 wget $url_service -O $solana_service
 sed -i "s#%user%#$user#g" $solana_service
 sed -i "s#%validator_key%#$solana_keypath/identity.json#g" $solana_service
