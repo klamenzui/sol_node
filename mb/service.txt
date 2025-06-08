@@ -17,34 +17,53 @@ Environment="RUST_LOG=solana=info"
 ExecStart=/%user%/.local/share/solana/install/active_release/bin/agave-validator \
     --identity %validator_key% \
     --vote-account %vote_key% \
+    --authorized-voter %validator_key% \
     --ledger %validator_ledger% \
-    --rpc-port %rpc_port% \
+    --known-validator 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2 \
+    --known-validator GdnSyH3YtwcxFvQrVVJMm1JhTS4QVX7MFsX56uJLUfiZ \
+    --known-validator DE1bawNcRJB9rVm3buyMVfr8mBEoyyu73NBovf2oXJsJ \
+    --known-validator CakcnaRDHka2gXyfbEd2d3xsvkJkqsLw2akB3zsN1D2S \
     --entrypoint entrypoint.mainnet-beta.solana.com:8001 \
     --entrypoint entrypoint2.mainnet-beta.solana.com:8001 \
     --entrypoint entrypoint3.mainnet-beta.solana.com:8001 \
     --entrypoint entrypoint4.mainnet-beta.solana.com:8001 \
     --entrypoint entrypoint5.mainnet-beta.solana.com:8001 \
-    --known-validator 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2 \
-        --known-validator GdnSyH3YtwcxFvQrVVJMm1JhTS4QVX7MFsX56uJLUfiZ \
-        --known-validator DE1bawNcRJB9rVm3buyMVfr8mBEoyyu73NBovf2oXJsJ \
-        --known-validator CakcnaRDHka2gXyfbEd2d3xsvkJkqsLw2akB3zsN1D2S \
-        --known-validator RBFiUqjYuy4mupzZaU96ctXJBy23sRBRsL3KivDAsFM \
-        --expected-genesis-hash 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d \
-        --only-known-rpc \
-        --wal-recovery-mode skip_any_corrupted_record \
-    --rpc-bind-address 127.0.0.1 \
+    --expected-genesis-hash 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d \
+    --rpc-port %rpc_port% \
+    --only-known-rpc \
+    --wal-recovery-mode skip_any_corrupted_record \
+    --limit-ledger-size 50000000 \
+    --no-poh-speed-test \
     --private-rpc \
     --full-rpc-api \
+    --rpc-bind-address 127.0.0.1 \
+#    --no-skip-initial-accounts-db-clean \
+#    --disable-accounts-disk-index \
     --dynamic-port-range 8000-8020 \
-    --limit-ledger-size 50000000 \
-        --full-snapshot-interval-slots 0 \
-        --incremental-snapshot-interval-slots 0 \
-        --maximum-full-snapshots-to-retain 2 \
-        --maximum-incremental-snapshots-to-retain 4 \
-    --maximum-local-snapshot-age 500 \
-        --use-snapshot-archives-at-startup when-newest \
-        --accounts-hash-cache-path /mnt/ramdisk/accounts_hash_cache \
-#--no-snapshot-fetch \
+    --accounts /%user%/solana/accounts \
+    --full-snapshot-interval-slots 50000 \
+    --accounts-hash-interval-slots 5000 \
+    --incremental-snapshot-interval-slots 5000 \
+#    --snapshots /home/sol/snapshots \
+    --maximum-full-snapshots-to-retain 1 \
+    --maximum-incremental-snapshots-to-retain 1 \
+    --rocksdb-shred-compaction level \
+    --block-verification-method unified-scheduler \
+    --block-production-method central-scheduler \
+    --experimental-poh-pinned-cpu-core 28 \
+    --unified-scheduler-handler-threads 24 \
+    --maximum-local-snapshot-age 5000 \
+    --accounts-hash-cache-path /mnt/ramdisk/accounts_hash_cache \
+    --accounts-index-path /mnt/ramdisk/accounts_index \
+    --use-snapshot-archives-at-startup when-newest \
+    --no-snapshot-fetch \
+    --tip-payment-program-pubkey T1pyyaTNZsKv2WcRAB8oVnk93mLJw2XzjtVYqCsaHqt \
+    --tip-distribution-program-pubkey 4R3gSG8BpU4t19KYj8CfnbtRpnT8gtk4dvTHxVRwc2r7 \
+    --merkle-root-upload-authority GZctHpWXmsZC1YHACTGGcHhYxjdRqQvTpYkb9LMvxDib \
+    --commission-bps 0 \
+    --relayer-url http://frankfurt.mainnet.relayer.jito.wtf:8100 \
+    --block-engine-url https://frankfurt.mainnet.block-engine.jito.wtf \
+    --shred-receiver-address 64.130.50.14:1002 \
     --log -
 [Install]
 WantedBy=multi-user.target
