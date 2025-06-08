@@ -15,7 +15,7 @@ Environment="SOLANA_METRICS_CONFIG=host=https://metrics.solana.com:8086,db=mainn
 Environment="RUST_LOG=solana=info"
 
 ExecStart=/%user%/.local/share/solana/install/active_release/bin/agave-validator \
-    --identity %validator_key% \
+    --identity %identity_ln% \
     --vote-account %vote_key% \
     --authorized-voter %validator_key% \
     --ledger %validator_ledger% \
