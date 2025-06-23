@@ -373,7 +373,7 @@ if __name__ == "__main__":
                 log('error', 'block_production is empty')
         
         log('openFiles', run_command("cat /proc/sys/fs/file-nr | awk '{ print $1 }'"))
-        log('nodes', run_command(f'{cli} gossip {rpc} | grep -Po "Nodes:\s+\K[0-9]+"'))
+        log('nodes', run_command(f'{cli} gossip {rpc} | grep -Po "Nodes:\\s+\\K[0-9]+"'))
         if err_str != '':
             err_str = err_str.replace('"', '\\"').replace('\n', ';').replace('\\', '/')
             log_str = f'{log_str},errors="{err_str}"'
