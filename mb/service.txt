@@ -1,8 +1,6 @@
 [Unit]
 Description=Solana Validator
 After=network.target
-Wants=solana-sys-tuner.service
-StartLimitIntervalSec=0
 
 [Service]
 Type=simple
@@ -40,7 +38,7 @@ ExecStart=/%user%/.local/share/solana/install/active_release/bin/agave-validator
 #    --no-skip-initial-accounts-db-clean \
 #    --disable-accounts-disk-index \
     --dynamic-port-range 8000-8020 \
-    --accounts /%user%/solana/accounts \
+    --accounts /%solana_keypath%/accounts \
     --full-snapshot-interval-slots 50000 \
     --accounts-hash-interval-slots 5000 \
     --incremental-snapshot-interval-slots 5000 \
@@ -61,7 +59,8 @@ ExecStart=/%user%/.local/share/solana/install/active_release/bin/agave-validator
     --tip-distribution-program-pubkey 4R3gSG8BpU4t19KYj8CfnbtRpnT8gtk4dvTHxVRwc2r7 \
     --merkle-root-upload-authority GZctHpWXmsZC1YHACTGGcHhYxjdRqQvTpYkb9LMvxDib \
     --commission-bps 0 \
-    --relayer-url http://frankfurt.mainnet.relayer.jito.wtf:8100 \
+#    --relayer-url http://frankfurt.mainnet.relayer.jito.wtf:8100 \
+    --relayer-url http://127.0.0.1:11226 \
     --block-engine-url https://frankfurt.mainnet.block-engine.jito.wtf \
     --shred-receiver-address 64.130.50.14:1002 \
     --log -
